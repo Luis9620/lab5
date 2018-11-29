@@ -2,20 +2,26 @@ class Heap:
     def __init__(self):
         self.heap_array = []
 
-    def insert(self, k):
-        # add the new value to the end of the array.
+    def insert(self, k):            #Add new element to the heap, maintaining heap property
         self.heap_array.append(k)
-        # TODO: Complete implementation
-        # percolate up from the last index to restore heap property.
-        i = len(self.heap_array)-1
-        while((i > 0) and (k < self.heap_array[(i - 1) // 2])):
-            self.heap_array[i] = self.heap_array[(i - 1) // 2]
-            i = i//2
-        self.heap_array[i] = k
-        return i
+
+        i = len(self.heap_array) - 1
+
+        while (i - 1 // 2) > 0:             #Bubble up
+            if self.heap_array[i] < self.heap_array[(i - 1) // 2]:
+                temp = self.heap_array[(i - 1) // 2]
+                self.heap_array[(i - 1) // 2] = self.heap_array[i]
+                self.heap_array[i] = temp
+            i = (i - 1) // 2
+        return self.heap_array
+
+    def print(self):
+        print("Heap size: ", len(self.heap_array))
+        print("H: ", self.heap_array)
+        print()
 
 
-    def extract_min(self):
+    def extract_min(self):          #Remove and return smallest element in heap, maintaining heap property
         if self.is_empty():
             return None
         min_elem = self.heap_array[0]
@@ -28,7 +34,7 @@ class Heap:
                 min = 2*i + 1
             if (2 * i + 2 <= len(self.heap_array)-1 and self.heap_array[min] > self.heap_array[2 * i + 2]):
                 min = 2 * i + 2
-            if min == i:
+            if min == i:            #Heap order has been re-established
                 break
             temp = self.heap_array[i]
             self.heap_array[i] = self.heap_array[min]
@@ -39,4 +45,4 @@ class Heap:
         return min_elem
 
     def is_empty(self):
-        return len(self.heap_array) == 0
+        return len(self.heap_array)
